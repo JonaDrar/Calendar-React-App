@@ -18,7 +18,7 @@ const registerInit = {
 
 export const LoginPage = () => {
 
-  const { startLogin, errorMessage } = useAuthStore();
+  const { startLogin, errorMessage, startRegister } = useAuthStore();
 
   const { loginEmail, loginPassword, onInputChange:onLoginInputChange } = useForm(loginInit);
   const { registerName, registerEmail, registerPassword, registerPassword2, onInputChange:onRegisterInputChange } = useForm(registerInit);
@@ -30,7 +30,12 @@ export const LoginPage = () => {
 
   const registerSubmit = (e) => {
     e.preventDefault();
-    console.log({ registerName, registerEmail, registerPassword, registerPassword2 });
+    if (registerPassword !== registerPassword2) {
+      Swal.fire('Error', 'Las contraseñas no coinciden', 'error');
+      return;
+    }
+    startRegister({name:registerName, email:registerEmail, password:registerPassword})
+
   }
 
   useEffect(() => {
